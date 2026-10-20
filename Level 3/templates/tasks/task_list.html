@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{% if user.is_staff %}All tasks{% else %}My tasks{% endif %}</h2>
+<a href="{% url 'task_create' %}">+ New task</a>
+<ul>
+{% for task in tasks %}
+    <li>
+        <span class="{% if task.is_done %}done{% endif %}">{{ task.title }}</span>
+        {% if user.is_staff %}<small>by {{ task.owner.username }}</small>{% endif %}
+        <a href="{% url 'task_update' task.pk %}">Edit</a>
+        <a href="{% url 'task_delete' task.pk %}">Delete</a>
+    </li>
+{% empty %}
+    <li>No tasks yet.</li>
+{% endfor %}
+</ul>
+{% endblock %}

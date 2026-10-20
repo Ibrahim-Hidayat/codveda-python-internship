@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Task Manager{% endblock %}</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 700px; margin: 40px auto; padding: 0 16px; }
+        nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .done { text-decoration: line-through; color: gray; }
+    </style>
+</head>
+<body>
+    <nav>
+        <strong>Task Manager</strong>
+        <div>
+            {% if user.is_authenticated %}
+                {{ user.username }}{% if user.is_staff %} (admin){% endif %}
+                <form method="post" action="{% url 'logout' %}" style="display:inline">
+                    {% csrf_token %}
+                    <button type="submit">Log out</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Log in</a> | <a href="{% url 'register' %}">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+    {% block content %}{% endblock %}
+</body>
+</html>
